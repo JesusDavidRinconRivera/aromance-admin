@@ -1,0 +1,491 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aromance · Panel de Administración</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <span class="logo-text">Aromance</span>
+    <span class="logo-sub">Panel de Gestión</span>
+    <div class="gold-bar"></div>
+    <div class="toggle-btn-wrap">
+      <div class="toggle-btn" id="toggle-sidebar" onclick="toggleSidebar()" title="Colapsar menú">
+        <svg viewBox="0 0 14 14"><polyline points="9,2 4,7 9,12"/></svg>
+      </div>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+    <div class="nav-item active" onclick="showPanel('dashboard')">
+      <span class="nav-icon">✦</span>
+      <span class="nav-label">Dashboard</span>
+      <span class="nav-tooltip">Dashboard</span>
+    </div>
+
+    <!-- CATÁLOGO -->
+    <div class="nav-section-label">Catálogo</div>
+
+    <!-- Marcas -->
+    <div class="nav-item" onclick="showPanel('marcas'); toggleSub('sub-marcas', this)">
+      <span class="nav-icon">◈</span>
+      <span class="nav-label">Marcas</span>
+      <span class="chevron" id="chev-marcas">▾</span>
+      <span class="nav-tooltip">Marcas</span>
+    </div>
+    <div class="nav-sub" id="sub-marcas">
+      <a class="nav-sub-item" href="ver_Marcas.php"><span class="sub-icon">👁</span> Ver marcas</a>
+      <a class="nav-sub-item" href="eliminar_marca.php"><span class="sub-icon">🗑</span> Eliminar marca</a>
+    </div>
+
+    <!-- Perfumes -->
+    <div class="nav-item" onclick="showPanel('perfumes'); toggleSub('sub-perfumes', this)">
+      <span class="nav-icon">◉</span>
+      <span class="nav-label">Perfumes</span>
+      <span class="chevron" id="chev-perfumes">▾</span>
+      <span class="nav-tooltip">Perfumes</span>
+    </div>
+    <div class="nav-sub" id="sub-perfumes">
+      <a class="nav-sub-item" href="ver_perfumes.php"><span class="sub-icon">👁</span> Ver perfumes</a>
+      <a class="nav-sub-item" href="eliminar_perfume.php"><span class="sub-icon">🗑</span> Eliminar perfume</a>
+    </div>
+
+    <!-- Colecciones -->
+    <div class="nav-item" onclick="showPanel('colecciones')">
+      <span class="nav-icon">❋</span>
+      <span class="nav-label">Colecciones</span>
+      <span class="nav-tooltip">Colecciones</span>
+    </div>
+
+    <!-- OLFATIVO -->
+    <div class="nav-section-label">Olfativo</div>
+
+    <!-- Acordes -->
+    <div class="nav-item" onclick="showPanel('acordes'); toggleSub('sub-acordes', this)">
+      <span class="nav-icon">◐</span>
+      <span class="nav-label">Acordes Olfativos</span>
+      <span class="chevron" id="chev-acordes">▾</span>
+      <span class="nav-tooltip">Acordes</span>
+    </div>
+    <div class="nav-sub" id="sub-acordes">
+      <a class="nav-sub-item" href="ver_acordes.php"><span class="sub-icon">👁</span> Ver acordes</a>
+      <a class="nav-sub-item" href="eliminar_acorde.php"><span class="sub-icon">🗑</span> Eliminar acorde</a>
+    </div>
+
+    <!-- Notas -->
+    <div class="nav-item" onclick="showPanel('notas'); toggleSub('sub-notas', this)">
+      <span class="nav-icon">◑</span>
+      <span class="nav-label">Notas Olfativas</span>
+      <span class="chevron" id="chev-notas">▾</span>
+      <span class="nav-tooltip">Notas</span>
+    </div>
+    <div class="nav-sub" id="sub-notas">
+      <a class="nav-sub-item" href="ver_notas.php"><span class="sub-icon">👁</span> Ver notas</a>
+      <a class="nav-sub-item" href="eliminar_nota.php"><span class="sub-icon">🗑</span> Eliminar nota</a>
+    </div>
+
+    <!-- CONTENIDO -->
+    <div class="nav-section-label">Contenido</div>
+    <div class="nav-item" onclick="showPanel('galerias')">
+      <span class="nav-icon">⊞</span>
+      <span class="nav-label">Galerías</span>
+      <span class="nav-tooltip">Galerías</span>
+    </div>
+    <div class="nav-item" onclick="showPanel('decants')">
+      <span class="nav-icon">◇</span>
+      <span class="nav-label">Decants</span>
+      <span class="nav-tooltip">Decants</span>
+    </div>
+  </nav>
+</aside>
+
+<!-- MAIN -->
+<main class="main" id="main">
+  <header class="topbar">
+    <span class="topbar-title" id="topbar-title">Dashboard</span>
+    <div class="topbar-actions">
+      <span class="badge badge-green">● En línea</span>
+      <button class="btn btn-outline" onclick="resetForm()">Limpiar</button>
+      <button class="btn btn-gold" onclick="handleSave()">✦ Guardar</button>
+    </div>
+  </header>
+
+  <div class="content">
+
+    <!-- DASHBOARD -->
+    <div class="panel active" id="panel-dashboard">
+      <div class="stats-row">
+        <div class="stat-card"><div class="stat-icon">◉</div><div class="stat-number">—</div><div class="stat-label">Perfumes</div></div>
+        <div class="stat-card"><div class="stat-icon">◈</div><div class="stat-number">—</div><div class="stat-label">Marcas</div></div>
+        <div class="stat-card"><div class="stat-icon">◐</div><div class="stat-number">—</div><div class="stat-label">Acordes</div></div>
+        <div class="stat-card"><div class="stat-icon">◑</div><div class="stat-number">—</div><div class="stat-label">Notas</div></div>
+      </div>
+      <div class="card">
+        <div class="card-header">
+          <span class="card-title">Bienvenido a Aromance</span>
+          <span class="badge badge-gold">v1.0</span>
+        </div>
+        <div class="card-body">
+          <p style="color:var(--ink-mid); line-height:1.7; font-size:13.5px;">Selecciona una sección del menú lateral para comenzar a gestionar tu catálogo de perfumes premium.</p>
+          <div class="section-divider" style="margin-top:28px;">
+            <span class="section-divider-label">Accesos rápidos</span>
+            <div class="section-divider-line"></div>
+          </div>
+          <div style="display:flex;gap:10px;flex-wrap:wrap;">
+            <button class="btn btn-gold" onclick="showPanel('perfumes')">◉ Nuevo perfume</button>
+            <button class="btn btn-outline" onclick="showPanel('marcas')">◈ Nueva marca</button>
+            <button class="btn btn-outline" onclick="showPanel('acordes')">◐ Nuevo acorde</button>
+            <button class="btn btn-outline" onclick="showPanel('notas')">◑ Nueva nota</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARCAS -->
+    <div class="panel" id="panel-marcas">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Nueva Marca</span><span class="badge badge-gold">marcas</span></div>
+        <div class="card-body">
+          <form id="form-marcas" action="guardar_marca.php" method="POST" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="form-group"><label>Nombre de la marca <span class="required-mark">*</span></label><input type="text" name="nombre" placeholder="Ej. Chanel, Dior, Tom Ford…" required></div>
+              <div class="form-group"><label>País de origen</label><input type="text" name="pais" placeholder="Ej. Francia, Italia, EE.UU."></div>
+              <div class="form-group"><label>Sitio web</label><input type="url" name="sitio_web" placeholder="https://www.marca.com"></div>
+              <div class="form-group"><label>Logo de la marca</label><input type="file" name="logo" accept="image/*" onchange="previewSingle(this,'logo-preview')"><span class="file-hint">PNG, JPG, SVG · Máx. 2 MB</span><img id="logo-preview" src="" alt="" style="display:none;max-height:80px;margin-top:10px;border-radius:6px;border:1px solid var(--border);"></div>
+              <div class="form-group col-span-2"><label>Descripción</label><textarea name="descripcion" maxlength="1000" placeholder="Historia, filosofía y esencia de la marca…" oninput="updateCounter(this,'counter-marca')"></textarea><span class="char-counter"><span id="counter-marca">0</span>/1000</span></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- PERFUMES -->
+    <div class="panel" id="panel-perfumes">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Nuevo Perfume</span><span class="badge badge-gold">perfumes</span></div>
+        <div class="card-body">
+          <form id="form-perfumes" action="guardar_perfume.php" method="POST" enctype="multipart/form-data">
+            <div class="section-divider" style="margin-top:0;"><span class="section-divider-label">Identificación</span><div class="section-divider-line"></div></div>
+            <div class="form-grid cols-3">
+              <div class="form-group"><label>Nombre del perfume <span class="required-mark">*</span></label><input type="text" name="nombre" placeholder="Nombre del perfume" required oninput="autoSlug(this)"></div>
+              <div class="form-group"><label>Slug (URL)</label><input type="text" name="slug" id="slug-field" placeholder="nombre-del-perfume"></div>
+              <div class="form-group"><label>Marca <span class="required-mark">*</span></label><select name="marca_id" required><option value="">Seleccionar marca…</option><option value="1">Chanel</option><option value="2">Dior</option><option value="3">Tom Ford</option><option value="4">Creed</option><option value="5">YSL</option></select></div>
+              <div class="form-group"><label>Género</label><select name="genero"><option value="">Seleccionar…</option><option>Hombre</option><option>Mujer</option><option>Unisex</option></select></div>
+              <div class="form-group"><label>Concentración</label><select name="concentracion"><option value="">Seleccionar…</option><option>Parfum (Extrait)</option><option>Eau de Parfum</option><option>Eau de Toilette</option><option>Eau de Cologne</option><option>Eau Fraîche</option></select></div>
+              <div class="form-group"><label>Año de lanzamiento</label><input type="number" name="lanzamiento" min="1900" max="2030" placeholder="Ej. 2023"></div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Precio & Stock</span><div class="section-divider-line"></div></div>
+            <div class="form-grid cols-3">
+              <div class="form-group"><label>Precio (COP) <span class="required-mark">*</span></label><input type="number" name="precio" step="0.01" min="0" placeholder="0.00" required></div>
+              <div class="form-group"><label>Volumen (ml)</label><input type="number" name="volumen_ml" min="1" placeholder="100"></div>
+              <div class="form-group"><label>Stock disponible</label><input type="number" name="stock" min="0" placeholder="0"></div>
+              <div class="form-group"><label>Puntuación (0–5)</label><input type="number" name="puntuacion" min="0" max="5" step="0.01" placeholder="4.80"></div>
+              <div class="form-group" style="justify-content:flex-end;padding-bottom:4px;"><label>Activo en tienda</label><div class="toggle-wrap" style="margin-top:8px;"><label class="toggle"><input type="checkbox" name="activo" checked><span class="toggle-slider"></span></label><span class="toggle-label">Visible al público</span></div></div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Descripción</span><div class="section-divider-line"></div></div>
+            <div class="form-grid cols-1">
+              <div class="form-group"><label>Descripción del perfume</label><textarea name="descripcion" maxlength="2000" rows="4" placeholder="Describe la esencia, historia y carácter de este perfume…" oninput="updateCounter(this,'counter-perf')"></textarea><span class="char-counter"><span id="counter-perf">0</span>/2000</span></div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Imagen Principal</span><div class="section-divider-line"></div></div>
+            <div class="form-grid">
+              <div class="form-group col-span-2">
+                <label>Imagen principal del perfume</label>
+                <div class="image-upload-zone" onclick="document.getElementById('img-principal').click()"><div class="upload-icon">◎</div><div class="upload-text">Haz clic para seleccionar una imagen</div><div class="upload-hint">JPG, PNG, WebP · Recomendado 800×800 px · Máx. 5 MB</div><input type="file" id="img-principal" name="imagen_principal" accept="image/*" style="display:none" onchange="previewSingle(this,'preview-principal-img')"></div>
+                <img id="preview-principal-img" src="" alt="" style="display:none;max-height:160px;margin-top:12px;border-radius:10px;border:1px solid var(--border);object-fit:cover;">
+              </div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Acordes Olfativos</span><div class="section-divider-line"></div></div>
+            <div class="form-group"><label>Acordes (escribe y presiona Enter)</label><div class="tag-area" id="acordes-area" onclick="document.getElementById('acordes-input').focus()"><input class="tag-input" id="acordes-input" placeholder="Ej. Floral, Amaderado, Cítrico…" onkeydown="handleTag(event,'acordes-area','acordes-hidden')"></div><input type="hidden" name="acordes" id="acordes-hidden"></div>
+            <div style="margin-top:10px;">
+              <div class="form-group"><div class="range-label"><label>Intensidad principal</label><span class="range-value" id="intensidad-val">80</span></div><input type="range" name="intensidad" min="0" max="100" value="80" oninput="updateRange(this,'intensidad-val')"></div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Pirámide Olfativa</span><div class="section-divider-line"></div></div>
+            <div class="piramide">
+              <div class="piramide-col"><div class="piramide-label"><span class="piramide-dot dot-salida"></span>Notas de Salida</div><div class="form-group"><div class="tag-area" id="notas-salida-area" onclick="document.getElementById('ns-input').focus()"><input class="tag-input" id="ns-input" placeholder="Bergamota, Limón…" onkeydown="handleTag(event,'notas-salida-area','notas-salida-hidden')"></div><input type="hidden" name="notas_salida" id="notas-salida-hidden"></div></div>
+              <div class="piramide-col"><div class="piramide-label"><span class="piramide-dot dot-corazon"></span>Notas de Corazón</div><div class="form-group"><div class="tag-area" id="notas-corazon-area" onclick="document.getElementById('nc-input').focus()"><input class="tag-input" id="nc-input" placeholder="Rosa, Jazmín…" onkeydown="handleTag(event,'notas-corazon-area','notas-corazon-hidden')"></div><input type="hidden" name="notas_corazon" id="notas-corazon-hidden"></div></div>
+              <div class="piramide-col"><div class="piramide-label"><span class="piramide-dot dot-fondo"></span>Notas de Fondo</div><div class="form-group"><div class="tag-area" id="notas-fondo-area" onclick="document.getElementById('nf-input').focus()"><input class="tag-input" id="nf-input" placeholder="Ámbar, Musgo…" onkeydown="handleTag(event,'notas-fondo-area','nf-hidden')"></div><input type="hidden" name="notas_fondo" id="nf-hidden"></div></div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Colección</span><div class="section-divider-line"></div></div>
+            <div class="form-grid">
+              <div class="form-group"><label>Colección</label><select name="coleccion_id"><option value="">Sin colección</option><option value="1">Noche Árabe</option><option value="2">Jardín de Oriente</option><option value="3">Clásicos Eternos</option></select></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- COLECCIONES -->
+    <div class="panel" id="panel-colecciones">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Nueva Colección</span><span class="badge badge-gold">colecciones</span></div>
+        <div class="card-body">
+          <form id="form-colecciones" action="guardar_coleccion.php" method="POST" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="form-group"><label>Nombre de la colección <span class="required-mark">*</span></label><input type="text" name="nombre" placeholder="Ej. Noche Árabe" required></div>
+              <div class="form-group"><label>Imagen representativa</label><input type="file" name="imagen" accept="image/*" onchange="previewSingle(this,'col-img-prev')"><img id="col-img-prev" src="" style="display:none;max-height:80px;margin-top:8px;border-radius:8px;"></div>
+              <div class="form-group col-span-2"><label>Descripción</label><textarea name="descripcion" maxlength="800" placeholder="Describe el universo y espíritu de esta colección…" oninput="updateCounter(this,'counter-col')"></textarea><span class="char-counter"><span id="counter-col">0</span>/800</span></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- ACORDES -->
+    <div class="panel" id="panel-acordes">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Nuevo Acorde Olfativo</span><span class="badge badge-gold">acordes</span></div>
+        <div class="card-body">
+          <form id="form-acordes" action="guardar_acorde.php" method="POST" enctype="multipart/form-data">
+            <div class="form-grid cols-3">
+              <div class="form-group"><label>Nombre del acorde <span class="required-mark">*</span></label><input type="text" name="nombre" placeholder="Ej. Floral, Amaderado…" required></div>
+              <div class="form-group"><label>Color representativo</label><div class="color-row"><input type="color" name="color" value="#C9A84C"><input type="text" name="color_hex" placeholder="#C9A84C" style="flex:1;" oninput="syncColor(this)"></div></div>
+              <div class="form-group"><label>Ícono (emoji o clase)</label><input type="text" name="icono" placeholder="🌸 o fa-flower"></div>
+              <div class="form-group"><label>Imagen del acorde</label><input type="file" name="imagen" accept="image/*" onchange="previewSingle(this,'acorde-img-prev')"><img id="acorde-img-prev" src="" style="display:none;max-height:80px;margin-top:8px;border-radius:8px;"></div>
+              <div class="form-group col-span-2"><label>Descripción</label><textarea name="descripcion" maxlength="500" placeholder="Describe el carácter olfativo de este acorde…" oninput="updateCounter(this,'counter-acorde')"></textarea><span class="char-counter"><span id="counter-acorde">0</span>/500</span></div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Galería del Acorde</span><div class="section-divider-line"></div></div>
+            <div class="form-group"><label>Imágenes adicionales</label><div class="image-upload-zone" onclick="document.getElementById('acorde-gallery').click()"><div class="upload-icon">⊞</div><div class="upload-text">Seleccionar imágenes de galería</div><div class="upload-hint">Puedes subir múltiples imágenes</div><input type="file" id="acorde-gallery" name="imagenes_acorde[]" accept="image/*" multiple style="display:none" onchange="previewMultiple(this,'acorde-gallery-prev')"></div><div class="preview-grid" id="acorde-gallery-prev"></div></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- NOTAS -->
+    <div class="panel" id="panel-notas">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Nueva Nota Olfativa</span><span class="badge badge-gold">notas</span></div>
+        <div class="card-body">
+          <form id="form-notas" action="guardar_nota.php" method="POST" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="form-group"><label>Nombre de la nota <span class="required-mark">*</span></label><input type="text" name="nombre" placeholder="Ej. Bergamota, Rosa, Ámbar…" required></div>
+              <div class="form-group"><label>Imagen de la nota</label><input type="file" name="imagen" accept="image/*" onchange="previewSingle(this,'nota-img-prev')"><span class="file-hint">Ingrediente o elemento visual · Máx. 2 MB</span><img id="nota-img-prev" src="" style="display:none;max-height:90px;margin-top:8px;border-radius:8px;"></div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- GALERÍAS -->
+    <div class="panel" id="panel-galerias">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Galería de Imágenes</span><span class="badge badge-gold">imagenes_perfume</span></div>
+        <div class="card-body">
+          <form id="form-galerias" action="guardar_galeria.php" method="POST" enctype="multipart/form-data">
+            <div class="form-grid">
+              <div class="form-group"><label>Perfume asociado <span class="required-mark">*</span></label><select name="perfume_id" required><option value="">Seleccionar perfume…</option><option value="1">Chanel No. 5</option><option value="2">Dior Sauvage</option><option value="3">Black Orchid – Tom Ford</option></select></div>
+              <div class="form-group"><label>Tipo de imagen</label><select name="tipo"><option value="producto">Producto</option><option value="ingrediente">Ingrediente</option><option value="marketing">Marketing</option><option value="banner">Banner</option><option value="detalle">Detalle</option></select></div>
+            </div>
+            <div class="section-divider"><span class="section-divider-label">Subir Imágenes</span><div class="section-divider-line"></div></div>
+            <div class="form-group"><div class="image-upload-zone" onclick="document.getElementById('gallery-files').click()"><div class="upload-icon">⊞</div><div class="upload-text">Seleccionar imágenes (múltiples)</div><div class="upload-hint">JPG, PNG, WebP · Recomendado 1200×900 px · Máx. 5 MB c/u</div><input type="file" id="gallery-files" name="imagenes[]" accept="image/*" multiple style="display:none" onchange="previewMultiple(this,'gallery-preview')"></div><div class="preview-grid" id="gallery-preview"></div></div>
+            <div class="section-divider"><span class="section-divider-label">Texto Alternativo</span><div class="section-divider-line"></div></div>
+            <div class="form-grid cols-1"><div class="form-group"><label>Alt text (accesibilidad y SEO)</label><input type="text" name="alt_text" placeholder="Ej. Frasco de cristal de Chanel No. 5 sobre fondo blanco"></div></div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- DECANTS -->
+    <div class="panel" id="panel-decants">
+      <div class="card">
+        <div class="card-header"><span class="card-title">Gestión de Decants</span><span class="badge badge-gold">decants</span></div>
+        <div class="card-body">
+          <form id="form-decants" action="guardar_decant.php" method="POST">
+            <div class="form-grid"><div class="form-group col-span-2"><label>Perfume <span class="required-mark">*</span></label><select name="perfume_id" required><option value="">Seleccionar perfume…</option><option value="1">Chanel No. 5 – 100ml</option><option value="2">Dior Sauvage EDP – 60ml</option><option value="3">Black Orchid Tom Ford – 50ml</option></select></div></div>
+            <div class="section-divider"><span class="section-divider-label">Agregar Variante de Decant</span><div class="section-divider-line"></div></div>
+            <div class="decants-grid">
+              <div class="form-group"><label>Volumen (ml)</label><input type="number" id="d-volumen" min="1" placeholder="5"></div>
+              <div class="form-group"><label>Precio (COP)</label><input type="number" id="d-precio" step="0.01" min="0" placeholder="15000"></div>
+              <div class="form-group"><label>Stock</label><input type="number" id="d-stock" min="0" placeholder="20"></div>
+              <div class="form-group" style="justify-content:flex-end;"><button type="button" class="btn btn-gold" onclick="addDecant()" style="width:100%;">+ Agregar</button></div>
+            </div>
+            <div class="decants-list" id="decants-list"></div>
+            <input type="hidden" name="decants_json" id="decants-json">
+          </form>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<div class="toast-container" id="toasts"></div>
+
+<script>
+const panels = document.querySelectorAll('.panel');
+const navItems = document.querySelectorAll('.nav-item');
+const titles = { dashboard:'Dashboard', marcas:'Marcas', perfumes:'Perfumes', colecciones:'Colecciones', acordes:'Acordes Olfativos', notas:'Notas Olfativas', galerias:'Galerías', decants:'Decants' };
+
+function showPanel(name) {
+  panels.forEach(p => p.classList.remove('active'));
+  navItems.forEach(n => n.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  document.getElementById('topbar-title').textContent = titles[name] || name;
+  const idx = Object.keys(titles).indexOf(name);
+  navItems[idx]?.classList.add('active');
+}
+
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const main = document.getElementById('main');
+  sidebar.classList.toggle('collapsed');
+  main.classList.toggle('collapsed');
+}
+
+function toggleSub(subId, itemEl) {
+  const sub = document.getElementById(subId);
+  if (!sub) return;
+  const isOpen = sub.classList.contains('open');
+  document.querySelectorAll('.nav-sub.open').forEach(s => s.classList.remove('open'));
+  document.querySelectorAll('.chevron.open').forEach(c => c.classList.remove('open'));
+  if (!isOpen) {
+    sub.classList.add('open');
+    const chevId = 'chev-' + subId.replace('sub-','');
+    const chev = document.getElementById(chevId);
+    if (chev) chev.classList.add('open');
+  }
+}
+
+function autoSlug(input) {
+  const slug = input.value.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9\s-]/g,'').trim().replace(/\s+/g,'-');
+  document.getElementById('slug-field').value = slug;
+}
+
+function updateCounter(el, id) { document.getElementById(id).textContent = el.value.length; }
+
+function updateRange(input, id) {
+  document.getElementById(id).textContent = input.value;
+  const pct = ((input.value - input.min) / (input.max - input.min)) * 100;
+  input.style.setProperty('--val', pct + '%');
+}
+
+function previewSingle(input, imgId) {
+  const file = input.files[0];
+  if (!file) return;
+  const img = document.getElementById(imgId);
+  img.src = URL.createObjectURL(file);
+  img.style.display = 'block';
+}
+
+function previewMultiple(input, containerId) {
+  const container = document.getElementById(containerId);
+  container.innerHTML = '';
+  Array.from(input.files).forEach(file => {
+    const div = document.createElement('div');
+    div.className = 'preview-thumb';
+    const img = document.createElement('img');
+    img.src = URL.createObjectURL(file);
+    div.appendChild(img); container.appendChild(div);
+  });
+}
+
+function handleTag(e, areaId, hiddenId) {
+  if (e.key !== 'Enter' && e.key !== ',') return;
+  e.preventDefault();
+  const input = e.target;
+  const val = input.value.trim();
+  if (!val) return;
+  addTag(val, areaId, hiddenId);
+  input.value = '';
+}
+
+function addTag(val, areaId, hiddenId) {
+  const area = document.getElementById(areaId);
+  const tag = document.createElement('span');
+  tag.className = 'tag';
+  tag.innerHTML = `${val}<span class="tag-remove" onclick="removeTag(this,'${hiddenId}')">×</span>`;
+  tag.dataset.value = val;
+  const inp = area.querySelector('.tag-input');
+  area.insertBefore(tag, inp);
+  updateHidden(areaId, hiddenId);
+}
+
+function removeTag(el, hiddenId) {
+  const tag = el.parentElement;
+  const area = tag.parentElement;
+  tag.remove();
+  updateHidden(area.id, hiddenId);
+}
+
+function updateHidden(areaId, hiddenId) {
+  const area = document.getElementById(areaId);
+  const vals = Array.from(area.querySelectorAll('.tag')).map(t => t.dataset.value);
+  document.getElementById(hiddenId).value = vals.join(',');
+}
+
+function syncColor(input) {
+  const colorPicker = input.previousElementSibling;
+  if (input.value.match(/^#[0-9A-Fa-f]{6}$/)) colorPicker.value = input.value;
+}
+
+const decants = [];
+function addDecant() {
+  const v = document.getElementById('d-volumen').value;
+  const p = document.getElementById('d-precio').value;
+  const s = document.getElementById('d-stock').value;
+  if (!v || !p) { showToast('Ingresa volumen y precio', '⚠'); return; }
+  decants.push({ volumen_ml: parseInt(v), precio: parseFloat(p), stock: parseInt(s||0) });
+  renderDecants();
+  document.getElementById('d-volumen').value = '';
+  document.getElementById('d-precio').value = '';
+  document.getElementById('d-stock').value = '';
+}
+
+function renderDecants() {
+  const list = document.getElementById('decants-list');
+  list.innerHTML = '';
+  decants.forEach((d,i) => {
+    const row = document.createElement('div');
+    row.className = 'decant-row';
+    row.innerHTML = `<span class="decant-badge">${d.volumen_ml} ml</span><span>${new Intl.NumberFormat('es-CO',{style:'currency',currency:'COP',maximumFractionDigits:0}).format(d.precio)}</span><span style="color:var(--ink-soft)">Stock: <strong>${d.stock}</strong></span><button type="button" class="btn btn-danger" onclick="removeDecant(${i})" style="padding:6px 12px;font-size:12px;">Eliminar</button>`;
+    list.appendChild(row);
+  });
+  document.getElementById('decants-json').value = JSON.stringify(decants);
+}
+
+function removeDecant(i) { decants.splice(i,1); renderDecants(); }
+
+function handleSave() {
+  const activePanel = document.querySelector('.panel.active');
+  const form = activePanel.querySelector('form');
+  if (!form) return;
+  if (!form.checkValidity()) { form.reportValidity(); return; }
+  form.submit();
+}
+
+function resetForm() {
+  const activePanel = document.querySelector('.panel.active');
+  const form = activePanel.querySelector('form');
+  if (form) {
+    form.reset();
+    activePanel.querySelectorAll('img[id]').forEach(img => img.style.display = 'none');
+    activePanel.querySelectorAll('.preview-grid').forEach(g => g.innerHTML = '');
+    activePanel.querySelectorAll('.tag-area').forEach(area => area.querySelectorAll('.tag').forEach(t => t.remove()));
+    activePanel.querySelectorAll('[id^="counter-"]').forEach(c => c.textContent = '0');
+  }
+  showToast('Formulario limpiado', '◎');
+}
+
+function showToast(msg, icon='✦') {
+  const container = document.getElementById('toasts');
+  const toast = document.createElement('div');
+  toast.className = 'toast';
+  toast.innerHTML = `<span style="font-size:16px;color:var(--gold);">${icon}</span> ${msg}`;
+  container.appendChild(toast);
+  setTimeout(() => { toast.style.opacity='0'; toast.style.transform='translateX(30px)'; toast.style.transition='0.3s'; setTimeout(()=>toast.remove(),350); }, 3500);
+}
+
+document.querySelectorAll('input[type="range"]').forEach(r => {
+  const pct = ((r.value - r.min) / (r.max - r.min)) * 100;
+  r.style.setProperty('--val', pct + '%');
+});
+</script>
+</body>
+</html>
