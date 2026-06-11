@@ -170,3 +170,41 @@ document.querySelectorAll('input[type="range"]').forEach(r => {
 window.addEventListener('DOMContentLoaded', () => {
     alert('✅ JS exitoso');
 });
+
+function cargarStats() {
+  fetch('get_stats.php')
+    .then(res => res.json())
+    .then(json => {
+      if (!json.success) return;
+      const d = json.data;
+
+      animarContador('stat-perfumes', d.perfumes);
+      animarContador('stat-marcas',   d.marcas);
+      animarContador('stat-acordes',  d.acordes);
+      animarContador('stat-notas',    d.notas);
+    })
+    .catch(() => {
+      // Si falla la conexión, deja el "—" sin romper la página
+    });
+}
+
+function animarContador(id, total) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  const duracion = 800;
+  const inicio = performance.now();
+
+  function paso(ahora) {
+    const progreso = Math.min((ahora - inicio) / duracion, 1);
+    // Ease-out: desacelera al final
+    const valor = Math.floor(progreso * (1 - progreso * 0.3) * total * 1.3);
+    el.textContent = Math.min(valor, total);
+    if (progreso < 1) requestAnimationFrame(paso);
+    else el.textContent = total;
+  }
+
+  requestAnimationFrame(paso);
+}
+
+// Llama la función al cargar la página
+document.addEventListener('DOMContentLoaded', cargarStats);
